@@ -24,7 +24,7 @@ use Corneltek\PreviewSystem\MySplFileInfo;
  *
  *     $preview->preview( $sourceFile );
  *
- * @VERSION 1.0.0
+ * @VERSION 1.0.1
  */
 
 class Preview
