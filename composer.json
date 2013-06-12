@@ -1,5 +1,5 @@
 {
-    "name": "base",
+    "name": "corneltek/preview",
     "require": {
         "symfony/yaml": "~2.2",
         "twig/twig": "~1.12",
