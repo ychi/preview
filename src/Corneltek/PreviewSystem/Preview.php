@@ -23,6 +23,8 @@ use Corneltek\PreviewSystem\MySplFileInfo;
  * To preview one single file:
  *
  *     $preview->preview( $sourceFile );
+ *
+ * @VERSION 1.0.0
  */
 
 class Preview
