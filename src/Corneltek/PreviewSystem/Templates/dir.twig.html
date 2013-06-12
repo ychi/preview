@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style text="text/css">
+
+/* color scheme: http://colorschemedesigner.com/#3M11TeJU8w0w0 */
+
+body {
+    font-size: 16px;
+    font-family: Helvetica Neue;
+}
+
+a { 
+    color: #2D4C9A;
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+.project,
+.rev,
+.current-path { 
+    font-weight: bold;
+    margin: 5px 3px;
+}
+
+table.directory-index { 
+    width: 100%;
+    border-spacing:0px;
+    border-collapse:0px;
+    border: 1px solid #BECEF6;
+    border-radius: 5px;
+}
+
+.directory-index td { 
+    padding: 5px 5px; 
+    font-size: 20px;
+}
+.directory-index tr.html { 
+    
+}
+.directory-index tr.isdir { 
+    background: #BECEF6;
+}
+
+.directory-index tr.parent-path { 
+    background: #AEBEE6;
+}
+.directory-index tr.css td {
+
+}
+
+.directory-index tr:hover { 
+    background: #7f8cb1;
+    color: #fff;
+}
+.directory-index tr:hover a { 
+    color: #fff;
+}
+</style>
+</head>
+<body>
+<h2>LART Designer Preview System</h2>
+<div class="project"><a href="http://hg.lart-asia.com/{{ ProjectName }}">{{ ProjectName }}</a></div>
+<div class="rev">
+    <a href="http://hg.lart-asia.com/{{ ProjectName }}/rev/{{ Rev }}">{{ Rev }}</a>
+    : 
+    <a href="http://hg.lart-asia.com/{{ ProjectName }}/rev/{{ Hash }}">{{ Hash }}</a>
+</div>
+<div class="current-path">Current Path: {{ CurrentPath }}</div>
+
+{% if Readme %}
+<h3>README</h3>
+<pre>{{Readme|raw}}</pre>
+{% endif %}
+
+
+<table class="directory-index">
+    {% if ParentPath %}
+    <tr class="isdir parent-path"> 
+        <td colspan="3"> &#x2B05; <a href="..">{{ ParentPath }}</a> </td>
+    </tr>
+    {% endif %}
+{% for f in Files %}
+    {% if f.file %}
+        <tr class="isfile {{ f.getExtension }}">
+        <td><a href="{{ f.filename }}">{{ f.filename }}</a></td>
+        <td> {{ f.extension | upper }} 檔案</td>
+        <td>{{ f.size }} Bytes</td>
+    {% elseif f.dir %}
+        <tr class="isdir">
+        <td><a href="{{ f.filename }}/">{{ f.filename }}/</a></td>
+        <td>資料夾</td>
+        <td> -- </td>
+    {% endif %}
+    </tr>
+{% endfor %}
+</table>
+
+
+<footer>
+<p><i>PHP Version: {{ PhpVersion }}</i></p>
+</footer>
+</body>
+</html>

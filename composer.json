@@ -1,0 +1,30 @@
+{
+    "name": "base",
+    "require": {
+        "symfony/yaml": "~2.2",
+        "twig/twig": "~1.12",
+        "twig/extensions": "dev-master",
+        "corneltek/fileutil": "dev-master",
+        "corneltek/twig-markdown": "dev-master"
+    },
+
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "michelf\/php-markdown",
+                "version": "1.0",
+                "dist": {
+                    "url": "https:\/\/github.com\/michelf\/php-markdown\/zipball\/extra",
+                    "type": "zip"
+                },
+                "autoload": { "files": [ "markdown.php" ] }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Corneltek\\PreviewSystem": "src"
+        }
+    }
+}
