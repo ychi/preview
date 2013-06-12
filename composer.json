@@ -4,7 +4,7 @@
         "symfony\/yaml": "~2.2",
         "twig\/twig": "~1.13",
         "twig\/extensions": "~1.0",
-        "corneltek\/fileutil": "dev-master",
+        "corneltek\/fileutil": "~1.6",
         "corneltek\/twig-markdown": "dev-master"
     },
     "repositories": [
