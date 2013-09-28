@@ -3,9 +3,10 @@
     "require": {
         "symfony\/yaml": "~2.2",
         "twig\/twig": "~1.13",
-        "twig\/extensions": "~1.0",
-        "corneltek\/fileutil": "~1.6",
-        "corneltek\/twig-markdown": "~0.1"
+        "twig\/extensions": "~1",
+        "corneltek\/fileutil": "~1",
+        "corneltek\/twig-markdown": "~0.1",
+        "corneltek/scss-runner": "~1"
     },
     "repositories": [
         {
@@ -27,8 +28,8 @@
     ],
     "autoload": {
         "psr-0": {
-            "Corneltek\\PreviewSystem": "src"
+            "Corneltek\\Preview": "src"
         }
     },
-    "version": "1.0.2"
+    "version": "2.0.0"
 }
