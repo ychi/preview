@@ -10,7 +10,6 @@ function getPathInfo()
 }
 
 $config = new ConfigLoader;
-$config->loadFileIfExists('config.yml');
 $config->loadFileIfExists('config/preview.yml');
 
 $preview = new Corneltek\Preview\Preview($config->stash);

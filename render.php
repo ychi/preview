@@ -5,7 +5,6 @@ use Corneltek\Preview\TaskRunner;
 use Corneltek\Preview\ConfigLoader;
 
 $config = new ConfigLoader;
-$config->loadFileIfExists('config.yml');
 $config->loadFileIfExists('config/preview.yml');
 
 $runner = new TaskRunner($config->stash);
