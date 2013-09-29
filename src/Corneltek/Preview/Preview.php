@@ -1,6 +1,9 @@
 <?php
 namespace Corneltek\Preview;
-    
+
+/**
+ * @VERSION 2.0.0
+ **/
 class Preview {
 
     public $config = array();
