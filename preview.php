@@ -1,5 +1,7 @@
 <?php
 require 'vendor/autoload.php';
+use Corneltek\Preview\Preview;
+use Corneltek\Preview\ConfigLoader;
 
 function getPathInfo()
 {

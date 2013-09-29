@@ -1,5 +1,6 @@
 <?php
 namespace Corneltek\Preview;
+use SplFileInfo;
 
 /**
  * @VERSION 2.0.1
