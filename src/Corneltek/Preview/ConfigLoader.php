@@ -20,10 +20,14 @@ class ConfigLoader implements ArrayAccess
         );
     }
 
-    public function loadFile($file) {
+    public function loadFileIfExists($file) {
         if ( file_exists($file) ) {
             $this->stash = array_merge($this->stash,Yaml::parse($file));
         }
+    }
+
+    public function loadFile($file) {
+        $this->stash = array_merge($this->stash,Yaml::parse($file));
     }
     
     public function offsetSet($name,$value)
