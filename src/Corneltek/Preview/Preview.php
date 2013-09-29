@@ -35,14 +35,7 @@ class Preview {
 
     public function renderTemplate($fileinfo)
     {
-        $dirs = array(
-            $fileinfo->getPath(),
-            'design',
-            getcwd(),
-        );
         $twig = $this->getTwigEnvironmentByPath($fileinfo);
-        $twig = \Corneltek\Preview\TwigEnvironmentFactory::create($dirs);
-
         $templateFile = $fileinfo->getFilename();
         $template = $twig->loadTemplate( $templateFile );
         $content = $template->render(array());
