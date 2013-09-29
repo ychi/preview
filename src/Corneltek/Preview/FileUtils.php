@@ -1,5 +1,7 @@
 <?php
 namespace Corneltek\Preview;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class FileUtils
 {
