@@ -1,0 +1,5 @@
+#!/bin/bash
+if [[ ! -e config/preview.yml ]] ; then
+    mkdir -p config
+    cp -v vendor/corneltek/preview/config/preview.yml config
+fi
