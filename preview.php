@@ -8,11 +8,16 @@ function getPathInfo()
     if ( isset($_SERVER['PATH_INFO']) ) {
         return ltrim($_SERVER['PATH_INFO'],'/');
     }
-    return 'design';
 }
 
 $config = new ConfigLoader;
 $config->loadFileIfExists('config/preview.yml');
 
-$preview = new Corneltek\Preview\Preview($config->stash);
-$preview->dispatch(getPathInfo());
+$path = getPathInfo();
+if ( ! $path ) {
+    // redirect to design by default.
+    header('Location: preview.php/design/');
+}
+
+$preview = new Preview($config->stash);
+$preview->dispatch($path);

@@ -8,6 +8,8 @@ class DirectoryIndexReader
 {
     public $path;
 
+    public $ignorePrivateFiles = true;
+
     public function __construct( $path )
     {
         $this->path = $path;
@@ -23,6 +25,10 @@ class DirectoryIndexReader
 
             $filename = $fileinfo->getFilename();
             if ( $filename[0] == '.' ) {
+                continue;
+            }
+
+            if ( $this->ignorePrivateFiles && $filename[0] == '_' ) {
                 continue;
             }
 

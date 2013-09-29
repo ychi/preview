@@ -84,12 +84,12 @@ table.directory-index {
     {% if f.file %}
         <tr class="isfile {{ f.getExtension }}">
         <td><a href="{{ f.filename }}">{{ f.filename }}</a></td>
-        <td> {{ f.extension | upper }} 檔案</td>
+        <td> {{ f.extension | upper }}</td>
         <td>{{ f.size }} Bytes</td>
     {% elseif f.dir %}
         <tr class="isdir">
         <td><a href="{{ f.filename }}/">{{ f.filename }}/</a></td>
-        <td>資料夾</td>
+        <td>Folder</td>
         <td> -- </td>
     {% endif %}
     </tr>
