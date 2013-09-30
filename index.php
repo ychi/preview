@@ -16,7 +16,7 @@ $config->loadFileIfExists('config/preview.yml');
 $path = getPathInfo();
 if ( ! $path ) {
     // redirect to design by default.
-    header('Location: preview.php/design/');
+    header('Location: index.php/design/');
 }
 
 $preview = new Preview($config->stash);
