@@ -1,7 +1,7 @@
 ---
 TemplateDir: design
 PreviewDir: preview
-StaticDir: s
+StaticDir: static
 Verbose: true
 Twig:
   debug: true
@@ -18,15 +18,11 @@ Tasks:
       force: false
       compass: true
       paths:
-        - design/s/scss:design/s/css
-        - design/s/css/lib
+        - design/static/scss:design/static/css
   - ChmodReadWriteTask:
   - RenderPreviewTask:
-      subfolders:
-        - pages
-        - changelogs
       templateDirs:
         - design
   - CopyTask:
       paths:
-        - design/s:preview/s
+        - design/static:preview/static
