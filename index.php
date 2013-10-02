@@ -17,6 +17,7 @@ $path = getPathInfo();
 if ( ! $path ) {
     // redirect to design by default.
     header('Location: index.php/design/');
+    exit(0);
 }
 
 $preview = new Preview($config->stash);
