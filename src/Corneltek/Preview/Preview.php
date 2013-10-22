@@ -28,7 +28,7 @@ class Preview {
         $fn = $_SERVER['SCRIPT_NAME'];
         // var_dump( dirname( $fn ) );
         $url = dirname($fn) . '/' . $path;
-        // header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+        header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
         HttpHeaderMessage::byCode(301);
         header("Location: $url");
     }
