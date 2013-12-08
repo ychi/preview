@@ -3,7 +3,7 @@ namespace Corneltek\Preview;
 use SplFileInfo;
 
 /**
- * @VERSION 2.0.3
+ * @VERSION 2.0.4
  **/
 class Preview {
 
