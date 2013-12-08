@@ -13,7 +13,12 @@ class CompileScssTask extends BaseTask {
         $scss = new ScssRunner;
 
         // default scss directory
-        $scss->addTarget("$templateDir/$staticDir/scss", "$templateDir/$staticDir/css");
+        if ( file_exists("$templateDir/$staticDir/scss") ) {
+            if ( ! file_exists("$templateDir/$staticDir/css") ) {
+                mkdir("$templateDir/$staticDir/css",0755, true);
+            }
+            $scss->addTarget("$templateDir/$staticDir/scss", "$templateDir/$staticDir/css");
+        }
 
         // extra scss directory
         if ( $paths = $this->config('paths') ) {
