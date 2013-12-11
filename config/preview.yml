@@ -4,8 +4,8 @@ PreviewDir: preview
 StaticDir: static
 Verbose: true
 Twig:
-  debug: true
   auto_reload: true
+  cache: cache
 Tasks:
 #  - CleanTask:
 #      paths:
@@ -23,6 +23,10 @@ Tasks:
   - RenderPreviewTask:
       templateDirs:
         - design
+  - CompileMessageTask:
+      paths:
+        - design
+      csv: preview/messages.csv
   - CopyTask:
       paths:
         - design/static:preview/static
