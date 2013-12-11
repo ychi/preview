@@ -33,11 +33,7 @@ class CompileMessageTask extends BaseTask
 
                 // force compilation
                 if ($file->isFile() && ( in_array($file->getExtension(), array('html','htm','twig')))  ) {
-                    /*
-                    if ( CLI ) {
-                        echo "Compiling ", $rii->getSubPathname(), "\n";
-                    }
-                    */
+                    $this->info("Compiling ". $rii->getSubPathname());
                     $twig->loadTemplate($rii->getSubpathname());
                 }
             }

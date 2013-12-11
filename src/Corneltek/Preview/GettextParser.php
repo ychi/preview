@@ -48,7 +48,7 @@ class GettextParser
         fputs($fp, chr(255) . chr(254));
         fputs($fp, mb_convert_encoding( "Message ID\tTranslated Message\n" , 'UTF-16LE', 'UTF-8' ) );
         foreach( $this->messages as $message => $file ) {
-            fputs($fp, mb_convert_encoding( $message . "\n", 'UTF-16LE', 'UTF-8'));
+            fputs($fp, mb_convert_encoding( $message . "\t" . $message . "\n", 'UTF-16LE', 'UTF-8'));
         }
         fclose($fp);
     }
