@@ -2,11 +2,22 @@
 namespace Corneltek\Preview;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use IteratorAggregate;
+use ArrayIterator;
 
-class GettextParser
+class GettextParser implements IteratorAggregate
 {
 
     public $messages = array();
+
+
+    public function getIterator() {
+        return new ArrayIterator($this->messages);
+    }
+
+    public function count() {
+        return count($this->messages);
+    }
 
     public function parseFile($file) {
         $content = file_get_contents($file);
