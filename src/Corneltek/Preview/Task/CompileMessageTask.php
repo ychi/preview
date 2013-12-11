@@ -4,6 +4,8 @@ use Twig_Extensions_Extension_I18n;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use Corneltek\Preview\GettextParser;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class CompileMessageTask extends BaseTask 
 {
