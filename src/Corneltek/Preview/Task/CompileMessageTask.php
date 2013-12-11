@@ -45,7 +45,8 @@ class CompileMessageTask extends BaseTask
     {
         $this->info("Running command to parse i18n messages...");
         $scanPaths = (array) $this->config('paths');
-        $csvOutput = $this->config('csv') ?: 'messages.csv';
+        $output = $this->config('csv');
+        $flush = $this->config('flush');
 
         if ( file_exists('cache/twig') ) {
             $cacheDir = 'cache/twig';
@@ -60,7 +61,12 @@ class CompileMessageTask extends BaseTask
         $this->info("Parsing messages from $cacheDir...");
         $parser->parseDirectory($cacheDir);
 
-        $this->info("Writing messages to csv file $csvOutput...");
-        $parser->writeCsv($csvOutput);
+        if ( $flush ) {
+            $parser->outputCsv();
+        } else {
+            $this->info("Writing messages to csv file $output...");
+            $parser->writeCsv($output);
+        }
     }
+
 }
