@@ -1,6 +1,7 @@
 <?php
 namespace Corneltek\Preview;
 use SplFileInfo;
+use Phifty\Locale;
 
 /**
  * @VERSION 2.2.0
@@ -10,6 +11,11 @@ class Preview {
     public $config = array();
 
     public function __construct($config = array()) {
+        global $locale;
+        $locale  = new Locale;
+        $locale->domain('preview');
+        $locale->localedir('locale');
+        $locale->init();
         $this->config = $config;
     }
 
