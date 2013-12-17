@@ -15,7 +15,14 @@ class Preview {
         $locale  = new Locale;
         $locale->domain('preview');
         $locale->localedir('locale');
-        $locale->init();
+        // default lang to zh_TW
+
+        if ( isset($_REQUEST['locale']) ) {
+            $locale->init($_REQUEST['locale']);
+        } else {
+            // setup to default locale
+            $locale->init('zh_TW');
+        }
         $this->config = $config;
     }
 
