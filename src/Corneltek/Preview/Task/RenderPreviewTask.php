@@ -65,7 +65,12 @@ class RenderPreviewTask extends BaseTask
             echo ".";
         }
 
-        $content = $templateFile->render($baseData);
+        try {
+            $content = $templateFile->render($baseData);
+        } catch( Exception $e ) {
+            echo $e->getFile() . ':' . $e->getLine() . ' ' . $e->getMessage() . "\n";
+            return;
+        }
 
         // filter out java i18n tag
         if (ENABLE_JAVA_I18N_FILTER) {
@@ -73,7 +78,7 @@ class RenderPreviewTask extends BaseTask
         }
 
         if ( false === file_put_contents( $targetFilePath, $content ) ) {
-            die("Error: can not render file. $targetFilePath.");
+            echo "Error: can not render file. $targetFilePath.\n";
         }
     }
 
