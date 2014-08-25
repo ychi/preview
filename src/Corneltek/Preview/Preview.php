@@ -39,8 +39,8 @@ class Preview {
     public function redirectToStaticFile($path)
     {
         $fn = $_SERVER['SCRIPT_NAME'];
-        // var_dump( dirname( $fn ) );
-        $url = dirname($fn) . '/' . $path;
+        $baseUrl = rtrim(dirname($fn),'/');
+        $url = $baseUrl . '/' . $path;
         header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
         HttpHeaderMessage::byCode(301);
         header("Location: $url");
