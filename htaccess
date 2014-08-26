@@ -1,9 +1,13 @@
 RewriteEngine on
+RewriteRule ^$ /design/ [R]
+
 RewriteCond %{REQUEST_URI} .*\.(txt|css¦png|jpg¦gif¦js|json|woff|ttf|svg)
 RewriteRule ^ -
+
 
 RewriteCond %{REQUEST_URI} !^/preview.php [NC]
 RewriteRule ^(.*\.html)$ preview.php/$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.*)$ preview.php/$1 [NC,L]
+
