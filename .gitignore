@@ -3,3 +3,4 @@ cache
 design/
 preview/
 vendor/
+.sass-cache
