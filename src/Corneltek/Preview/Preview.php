@@ -26,14 +26,14 @@ class Preview {
         $this->config = $config;
     }
 
-    public function getTwigEnvironmentByPath($pathinfo)
+    public function getTwigEnvironmentByPath($pathinfo, $options = array())
     {
         $dirs = array(
             $pathinfo->getPath(),
             'design',
             getcwd(),
         );
-        return TwigEnvironmentFactory::create($dirs);
+        return TwigEnvironmentFactory::create($dirs, $options);
     }
 
     public function redirectToStaticFile($path)
@@ -48,14 +48,13 @@ class Preview {
 
     public function renderTemplate($fileinfo)
     {
-        $twig = $this->getTwigEnvironmentByPath($fileinfo);
+        $twig = $this->getTwigEnvironmentByPath($fileinfo, array(
+            'cache' => getcwd() . DIRECTORY_SEPARATOR . 'cache',
+            'auto_reload' => true,
+        ));
         $templateFile = $fileinfo->getFilename();
         $template = $twig->loadTemplate( $templateFile );
-        $content = $template->render(array());
-
-        // filter out java i18n tag
-        $content = preg_replace('#{(?<TAG>\w+).*?}(.*?){/\k<TAG>}#', '$2', $content );
-        echo $content;
+        return $template->render(array());
     }
 
     public function dispatch($path) {
@@ -77,7 +76,12 @@ class Preview {
                 case 'html':
                 case 'htm':
                 case 'twig':
-                    $this->renderTemplate($fileinfo);
+                    $start = microtime(true);
+                    $content = $this->renderTemplate($fileinfo);
+                    $end = microtime(true);
+                    $used = ($end - $start) * 1000;
+                    header("X-Rendering-Time: {$used}ms");
+                    echo $content;
                     break;
                 case 'php':
                     require $path;
