@@ -1,0 +1,35 @@
+---
+TemplateDir: design/pages
+PreviewDir: preview
+StaticDir: s
+Verbose: true
+Twig:
+  auto_reload: true
+  cache: cache
+Tasks:
+#  - CleanTask:
+#      paths:
+#        - cache
+#        - .sass-cache
+  - CleanPreviewTask:
+#  - CopyDesignTask:
+#      rsync: false
+  - CompileScssTask:
+      force: false
+      compass: true
+      paths:
+        - design/s/scss:design/s/css
+  - ChmodTask:
+      paths:
+        - [ "oga+rw", "cache" ]
+  - ChmodReadWriteTask:
+  - RenderPreviewTask:
+      templateDirs:
+        - design
+  - CompileMessageTask:
+      paths:
+        - design
+      csv: preview/messages.csv
+  - CopyTask:
+      paths:
+        - design/s:preview/s
