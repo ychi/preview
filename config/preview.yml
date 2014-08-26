@@ -19,6 +19,9 @@ Tasks:
       compass: true
       paths:
         - design/static/scss:design/static/css
+  - ChmodTask:
+      paths:
+        - [ "oga+rw", "cache" ]
   - ChmodReadWriteTask:
   - RenderPreviewTask:
       templateDirs:
