@@ -31,6 +31,11 @@ class CompileScssTask extends BaseTask {
                 }
             }
         }
+
+        if ( $style = $this->config('style') ) {
+            $scss->setStyle($style);
+        }
+
         if ( $this->config('compass') ) {
             $scss->enableCompass();
         }
