@@ -1,3 +1,5 @@
 composer.lock
 cache
-design
+design/
+preview/
+vendor/
