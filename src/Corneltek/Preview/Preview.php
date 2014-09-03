@@ -12,16 +12,18 @@ class Preview {
 
     public function __construct($config = array()) {
         global $locale;
-        $locale  = new Locale;
-        $locale->domain('preview');
-        $locale->localedir('locale');
-        // default lang to zh_TW
+        if (extension_loaded('gettext')) {
+            $locale  = new Locale;
+            $locale->domain('preview');
+            $locale->localedir('locale');
+            // default lang to zh_TW
 
-        if ( isset($_REQUEST['locale']) ) {
-            $locale->init($_REQUEST['locale']);
-        } else {
-            // setup to default locale
-            $locale->init('zh_TW');
+            if ( isset($_REQUEST['locale']) ) {
+                $locale->init($_REQUEST['locale']);
+            } else {
+                // setup to default locale
+                $locale->init('zh_TW');
+            }
         }
         $this->config = $config;
     }
