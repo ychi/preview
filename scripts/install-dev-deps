@@ -1,0 +1,33 @@
+#!/bin/bash
+# disable built-in apache
+PATH=/opt/local/bin:$PATH
+xcode-select --install
+launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist
+port install apache2
+port install php55 php55-yaml php55-APCu php55-pear php55-xdebug php55-gettext php55-apache2handler
+port install php_select
+port select --set php php55
+mkdir /opt/local/apache2/conf/sites-available
+mkdir /opt/local/apache2/conf/sites-enabled
+
+echo "Updating apache config..."
+echo "RewriteEngine on" >> /opt/local/apache2/conf/httpd.conf
+echo "Include conf/sites-enabled" >> /opt/local/apache2/conf/httpd.conf
+
+echo "Creating config to /opt/local/apache2/conf/sites-available/netbase.dev"
+cat <<END > /opt/local/apache2/conf/sites-available/netbase.dev
+<VirtualHost *:80>
+  ServerName netbase.dev
+  DocumentRoot /Users/c9s/work/netbase
+</VirtualHost>
+END
+
+echo "Creating link for netbase.dev"
+ln -s ../sites-available/netbase.dev /opt/local/apache2/conf/sites-enabled/netbase.dev
+
+echo "Creating host record to /etc/hosts..."
+echo "127.0.0.1   netbase.dev" >> /etc/hosts
+
+echo "Run the command below to load apache2"
+echo "\tport load apache2"
+
