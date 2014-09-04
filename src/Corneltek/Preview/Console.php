@@ -11,6 +11,7 @@ class Console extends Application
     {
         parent::init();
         $this->registerCommand('render');
+        $this->registerCommand('zip');
     }
 
     public function brief()

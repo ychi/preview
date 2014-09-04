@@ -1,6 +1,6 @@
 composer.lock
 cache
 design/
-preview/
-vendor/
+preview/*
+vendor/*
 .sass-cache
