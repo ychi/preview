@@ -1,6 +1,7 @@
 composer.lock
 cache
-design/
+design
 preview/*
 vendor/*
 .sass-cache
+*.zip
