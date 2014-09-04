@@ -4,7 +4,7 @@ use SplFileInfo;
 use Phifty\Locale;
 
 /**
- * @VERSION 2.2.4
+ * @VERSION 2.2.5
  **/
 class Preview {
 
