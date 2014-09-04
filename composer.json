@@ -7,6 +7,7 @@
         "corneltek\/fileutil": "~1",
         "corneltek\/twig-markdown": "~0.1",
         "corneltek\/scss-runner": "~1.3",
+        "corneltek\/cliframework": "~1",
         "corneltek\/locale": "~1"
     },
     "require-dev": {
