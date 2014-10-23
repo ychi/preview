@@ -15,20 +15,24 @@ class TwigEnvironmentFactory {
         $twig = new Twig_Environment($loader , $options);
         $twig->addFunction(new Twig_SimpleFunction('time', 'time'));
 
-        if ( class_exists('Twig_Extensions_Extension_I18n',true) ) {
+        $twig->addFunction(new Twig_SimpleFunction('override_query', function(array $args) {
+            return http_build_query(array_merge($_GET,$args));
+        }));
+
+        if ( class_exists('Twig_Extensions_Extension_I18n') ) {
             $twig->addExtension(new \Twig_Extensions_Extension_I18n());
         }
 
-        if ( class_exists('Twig_Extensions_Extension_Text',true) ) {
+        if ( class_exists('Twig_Extensions_Extension_Text') ) {
             $twig->addExtension(new \Twig_Extensions_Extension_Text);
         }
 
-        if ( class_exists('Twig_Extensions_Extension_Debug',true) ) {
+        if ( class_exists('Twig_Extensions_Extension_Debug') ) {
             $debug = new \Twig_Extensions_Extension_Debug;
             $twig->addExtension( $debug );
         }
 
-        if( class_exists('Twig_Extension_Markdown',true) ) {
+        if( class_exists('Twig_Extension_Markdown') ) {
             $twig->addExtension( new \Twig_Extension_Markdown );
         }
         return $twig;
