@@ -8,13 +8,30 @@ use Twig_Extensions_Extension_Text;
 use Twig_Extensions_Extension_I18n;
 use Twig_Extensions_Extension_Debug;
 
+class Public_Twig_Environment extends Twig_Environment {
+    /**
+     * This exists so template cache files use the same
+     * group between apache and cli
+     */
+    protected function writeCacheFile($file, $content){
+        if (!is_dir(dirname($file))) {
+            $old = umask(0000);
+            mkdir(dirname($file),0777,true);
+            umask($old);
+        }
+        parent::writeCacheFile($file, $content);
+        chmod($file,0666);
+    }
+}
+
+
+
 class TwigEnvironmentFactory {
 
     static public function createWithLoader($loader, $options = array())
     {
-        $twig = new Twig_Environment($loader , $options);
+        $twig = new Public_Twig_Environment($loader , $options);
         $twig->addFunction(new Twig_SimpleFunction('time', 'time'));
-
         $twig->addFunction(new Twig_SimpleFunction('override_query', function(array $args) {
             return http_build_query(array_merge($_GET,$args));
         }));
