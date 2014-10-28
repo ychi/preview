@@ -2,6 +2,7 @@
 namespace Corneltek\Preview;
 use SplFileInfo;
 use Phifty\Locale;
+use ConfigKit\ConfigCompiler;
 
 /**
  * @VERSION 2.2.2
@@ -55,12 +56,20 @@ class Preview {
             'auto_reload' => true,
         ));
         $templateFile = $fileinfo->getFilename();
+
+        $pathInfo = pathinfo($fileinfo->getRealPath());
+        $configFile = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $pathInfo['filename'] . '.yml';
+        $config = array();
+        if (file_exists($configFile)) {
+            $config = ConfigCompiler::load($configFile);
+        }
         $template = $twig->loadTemplate( $templateFile );
         return $template->render(array(
-            'Request' => $_REQUEST,
-            'Get'     => $_GET,
+            'Request'  => $_REQUEST,
+            'Get'      => $_GET,
             'Post'     => $_POST,
-            'Server' => $_SERVER,
+            'Server'   => $_SERVER,
+            'Config'   => $config,
         ));
     }
 
