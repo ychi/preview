@@ -4,7 +4,7 @@ use SplFileInfo;
 use Phifty\Locale;
 
 /**
- * @VERSION 2.2.5
+ * @VERSION 2.2.2
  **/
 class Preview {
 
@@ -56,7 +56,12 @@ class Preview {
         ));
         $templateFile = $fileinfo->getFilename();
         $template = $twig->loadTemplate( $templateFile );
-        return $template->render(array());
+        return $template->render(array(
+            'Request' => $_REQUEST,
+            'Get'     => $_GET,
+            'Post'     => $_POST,
+            'Server' => $_SERVER,
+        ));
     }
 
     public function dispatch($path) {
