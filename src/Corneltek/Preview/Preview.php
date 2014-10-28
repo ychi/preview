@@ -97,6 +97,7 @@ class Preview {
             $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], ConfigCompiler::load($configFile));
         }
 
+        // TODO: Refactor this to plugin
         if (isset($defaultArguments['Config']['PageOptions'])) {
             $builtInTwig = $this->getBuiltInTwigEnvironment();
             $pageOptionsTemplate = $builtInTwig->loadTemplate('page_options.html.twig');
