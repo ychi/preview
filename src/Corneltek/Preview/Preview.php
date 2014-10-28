@@ -74,7 +74,11 @@ class Preview {
 
         $templateFile = $fileinfo->getFilename();
         $pathInfo = pathinfo($fileinfo->getRealPath());
-        $configFile = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $pathInfo['filename'] . '.yml';
+        $templateDirectory = $pathInfo['dirname'];
+
+        $configFile = $templateDirectory . DIRECTORY_SEPARATOR . $pathInfo['filename'] . '.yml';
+        $globalConfigFile = $templateDirectory . DIRECTORY_SEPARATOR . '_global.yml';
+
         $previewTemplates = array();
 
         $defaultConfig = array();
@@ -86,8 +90,11 @@ class Preview {
             'Config'   => $defaultConfig,
         );
 
+        if (file_exists($globalConfigFile)) {
+            $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], ConfigCompiler::load($configFile));
+        }
         if (file_exists($configFile)) {
-            $defaultArguments['Config'] = ConfigCompiler::load($configFile);
+            $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], ConfigCompiler::load($configFile));
         }
 
         if (isset($defaultArguments['Config']['PageOptions'])) {
