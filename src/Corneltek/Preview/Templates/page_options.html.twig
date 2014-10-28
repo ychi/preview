@@ -20,6 +20,12 @@ vim:filetype=htmldjango:
                     <a href="?{{ override_query({ (optionEntry.Key): 1 }) }}">On</a> |
                     <a href="?{{ override_query({ (optionEntry.Key): 0 }) }}">Off</a>
                 </div>
+            {% elseif optionEntry.Hashes %}
+                <ul>
+                    {% for hashEntry in optionEntry.Hashes %}
+                        <li><a href="#{{ hashEntry }}">{{ hashEntry }}</li>
+                    {% endfor %}
+                </ul>
             {% elseif optionEntry.Values %}
                 <ul>
                 {% for key, val in optionEntry.Values %}
