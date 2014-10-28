@@ -1,0 +1,97 @@
+{#
+vim:filetype=htmldjango:
+#}
+<div id="pageOptions" class="page-options-box">
+    <h4 class="page-options-title">Page Options <a class="icon icon-remove" id="pageOptionsCloseBtn"> </a></h4>
+    <div class="page-options-body">
+        <form method="GET" id="pageOptionsForm">
+        {% for optionEntry in Config.PageOptions %}
+
+            {% if optionEntry.Label %}
+                <div class="page-option-label">{{optionEntry.Label}}</div>
+            {% endif %}
+
+            {% if optionEntry.Desc %}
+                <div class="page-option-desc">{{optionEntry.Desc}}</div>
+            {% endif %}
+
+            {% if optionEntry.Toggle %}
+                <div>
+                    <a href="?{{ override_query({ (optionEntry.Key): 1 }) }}">On</a> |
+                    <a href="?{{ override_query({ (optionEntry.Key): 0 }) }}">Off</a>
+                </div>
+            {% elseif optionEntry.Values %}
+                <ul>
+                {% for key, val in optionEntry.Values %}
+                    <li>
+                        <a href="?{{ override_query({ (optionEntry.Key): key }) }}"
+                            {% if val.Desc %}title="{{val.Desc}}"{% endif %}>
+
+                            {% if val.Label %}
+                                {{val.Label}}
+                            {% else %}
+                                {{val}}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+        </form>
+    </div>
+</div>
+<script>
+$(function() {
+    $('#pageOptionsCloseBtn').click(function() {
+        $('#pageOptions').fadeOut();
+    });
+    var $form = $('#pageOptionsForm');
+    $form.find('select').change(function() {
+        $form.submit();
+    });
+});
+</script>
+<style>
+.page-options-box {
+  position: fixed;
+  bottom: 30px;;
+  right: 0;
+  z-index: 99999;
+  background: #9FE0D6;
+  border: 1px solid #f0f0f0;
+  transition: all 1s ease;
+  box-shadow: -2px 2px 5px #a0a0a0;
+  transform: translateX(135px);
+  min-width: 120px;
+  min-height: 120px;
+  border-radius: 5px;
+}
+.page-options-body {
+  margin-left: 23px;
+  padding: 5px 10px;
+  background: #fff;
+}
+h4.page-options-title {
+  margin: 0;
+  transform: rotate(90deg);
+  position: absolute;
+  left: 22px;
+  top: 10px;
+  transform-origin: 0 0;
+}
+#pageOptions:hover {
+  transform: translateX(0);
+}
+
+.page-options-body ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 24px;
+    font-size: 12px;
+}
+.page-options-body ul > li {
+    list-style: disc;
+    line-height: 18px;
+}
+</style>

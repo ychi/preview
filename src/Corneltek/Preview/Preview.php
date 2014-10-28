@@ -3,6 +3,8 @@ namespace Corneltek\Preview;
 use SplFileInfo;
 use Phifty\Locale;
 use ConfigKit\ConfigCompiler;
+use ReflectionObject;
+use ReflectionClass;
 
 /**
  * @VERSION 2.2.2
@@ -29,6 +31,18 @@ class Preview {
         $this->config = $config;
     }
 
+
+    public function getBuiltInTwigEnvironment(array $options = array())
+    {
+        $dirs = array();
+        $class = new ReflectionClass($this);
+        $classFilename = $class->getFilename();
+        $templateDir = dirname($classFilename) . DIRECTORY_SEPARATOR . 'Templates';
+        return TwigEnvironmentFactory::create(array(
+            'preview' => $templateDir,
+        ), $options);
+    }
+
     public function getTwigEnvironmentByPath($pathinfo, $options = array())
     {
         $dirs = array(
@@ -49,28 +63,42 @@ class Preview {
         header("Location: $url");
     }
 
+
     public function renderTemplate($fileinfo)
     {
         $twig = $this->getTwigEnvironmentByPath($fileinfo, array(
             'cache' => getcwd() . DIRECTORY_SEPARATOR . 'cache',
             'auto_reload' => true,
         ));
-        $templateFile = $fileinfo->getFilename();
 
+
+        $templateFile = $fileinfo->getFilename();
         $pathInfo = pathinfo($fileinfo->getRealPath());
         $configFile = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $pathInfo['filename'] . '.yml';
-        $config = array();
-        if (file_exists($configFile)) {
-            $config = ConfigCompiler::load($configFile);
-        }
-        $template = $twig->loadTemplate( $templateFile );
-        return $template->render(array(
+        $previewTemplates = array();
+
+        $defaultConfig = array();
+        $defaultArguments = array(
             'Request'  => $_REQUEST,
             'Get'      => $_GET,
             'Post'     => $_POST,
             'Server'   => $_SERVER,
-            'Config'   => $config,
-        ));
+            'Config'   => $defaultConfig,
+        );
+
+        if (file_exists($configFile)) {
+            $defaultArguments['Config'] = ConfigCompiler::load($configFile);
+        }
+
+        if (isset($defaultArguments['Config']['PageOptions'])) {
+            $builtInTwig = $this->getBuiltInTwigEnvironment();
+            $pageOptionsTemplate = $builtInTwig->loadTemplate('page_options.html.twig');
+            $previewTemplates['PageOptions'] = $pageOptionsTemplate->render($defaultArguments);
+        }
+        $defaultArguments['PreviewTemplates'] = $previewTemplates;
+
+        $template = $twig->loadTemplate( $templateFile );
+        return $template->render($defaultArguments);
     }
 
     public function dispatch($path) {

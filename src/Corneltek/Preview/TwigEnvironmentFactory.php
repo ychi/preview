@@ -44,10 +44,14 @@ class TwigEnvironmentFactory {
             $twig->addExtension(new \Twig_Extensions_Extension_Text);
         }
 
-        if ( class_exists('Twig_Extensions_Extension_Debug') ) {
+        if (class_exists('Twig_Extension_Debug')) {
+            $debug = new \Twig_Extension_Debug;
+            $twig->addExtension( $debug );
+        } elseif (class_exists('Twig_Extensions_Extension_Debug')) {
             $debug = new \Twig_Extensions_Extension_Debug;
             $twig->addExtension( $debug );
         }
+        
 
         if( class_exists('Twig_Extension_Markdown') ) {
             $twig->addExtension( new \Twig_Extension_Markdown );
