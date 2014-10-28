@@ -2,7 +2,7 @@
     "name": "corneltek\/preview",
     "require": {
         "symfony\/yaml": "~2",
-        "twig\/twig": "~1.13",
+        "twig\/twig": "~1",
         "twig\/extensions": "~1",
         "corneltek\/fileutil": "~1",
         "corneltek\/twig-markdown": "~0.1",
