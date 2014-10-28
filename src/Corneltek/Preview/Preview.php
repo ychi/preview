@@ -87,11 +87,13 @@ class Preview {
             'Get'      => $_GET,
             'Post'     => $_POST,
             'Server'   => $_SERVER,
+            'GlobalConfig' => array(),
             'Config'   => $defaultConfig,
         );
 
         if (file_exists($globalConfigFile)) {
-            $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], ConfigCompiler::load($configFile));
+            $defaultArguments['GlobalConfig'] = ConfigCompiler::load($globalConfigFile);
+            $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], $defaultArguments['GlobalConfig']);
         }
         if (file_exists($configFile)) {
             $defaultArguments['Config'] = array_merge_recursive($defaultArguments['Config'], ConfigCompiler::load($configFile));
