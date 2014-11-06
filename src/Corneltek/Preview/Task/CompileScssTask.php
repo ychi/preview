@@ -32,6 +32,10 @@ class CompileScssTask extends BaseTask {
             }
         }
 
+        if ( $sourceMap = $this->config('sourcemap') ) {
+            $scss->setSourceMap($sourceMap);
+        }
+
         if ( $style = $this->config('style') ) {
             $scss->setStyle($style);
         }
