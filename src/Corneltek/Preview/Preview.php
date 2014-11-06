@@ -7,7 +7,7 @@ use ReflectionObject;
 use ReflectionClass;
 
 /**
- * @VERSION 2.2.2
+ * @VERSION 2.2.5
  **/
 class Preview {
 
