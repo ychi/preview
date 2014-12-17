@@ -69,6 +69,7 @@ $(function() {
   transition: all 1s ease;
   box-shadow: -2px 2px 5px #a0a0a0;
   transform: translateX(130px);
+  -webkit-transform: translateX(130px);
   min-width: 150px;
   min-height: 120px;
   border-radius: 5px;
@@ -80,13 +81,16 @@ $(function() {
 }
 h4.page-options-title {
   margin: 0;
+  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   position: absolute;
   left: 22px;
   top: 10px;
   transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
 }
 #pageOptions:hover {
+  -webkit-transform: translateX(0);
   transform: translateX(0);
 }
 
