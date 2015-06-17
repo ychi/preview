@@ -31,7 +31,6 @@ class Preview {
         $this->config = $config;
     }
 
-
     public function getBuiltInTwigEnvironment(array $options = array())
     {
         $dirs = array();
@@ -65,13 +64,12 @@ class Preview {
     }
 
 
-    public function renderTemplate($fileinfo)
+    public function renderTemplate(SplFileInfo $fileinfo)
     {
         $twig = $this->getTwigEnvironmentByPath($fileinfo, array(
             'cache' => getcwd() . DIRECTORY_SEPARATOR . 'cache',
             'auto_reload' => true,
         ));
-
 
         $templateFile = $fileinfo->getFilename();
         $pathInfo = pathinfo($fileinfo->getRealPath());
@@ -115,17 +113,19 @@ class Preview {
     public function dispatch($path) {
         $fileinfo = new SplFileInfo($path);
 
-        if ( ! $fileinfo->isReadable() ) {
+        if (! $fileinfo->isReadable()) {
+
             HttpHeaderMessage::byCode(404);
             echo 'Page Not Found.';
             return;
-        }
-        else if( $fileinfo->isDir() ) {
+
+        } else if ($fileinfo->isDir() ) {
+
             $index = new DirectoryIndexReader( $path );
             $index->display();
             return;
-        }
-        elseif( $fileinfo->isFile() ) {
+
+        } elseif ($fileinfo->isFile() ) {
             $ext = $fileinfo->getExtension();
             switch($ext) {
                 case 'html':
