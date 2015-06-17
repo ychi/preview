@@ -20,6 +20,13 @@ vim:filetype=htmldjango:
                     <a href="?{{ override_query({ (optionEntry.Key): 1 }) }}">On</a> |
                     <a href="?{{ override_query({ (optionEntry.Key): 0 }) }}">Off</a>
                 </div>
+
+            {% elseif optionEntry.Modals %}
+                <select class="page-options-modal-list" name="modals">
+                    {% for hashEntry in optionEntry.Modals %}
+                        <option value="{{ hashEntry }}">{{ hashEntry }}</option>
+                     {% endfor %}
+                </select>
             {% elseif optionEntry.Hashes %}
                 <ul>
                     {% for hashEntry in optionEntry.Hashes %}
@@ -52,10 +59,22 @@ $(function() {
     $('#pageOptionsCloseBtn').click(function() {
         $('#pageOptions').fadeOut();
     });
-    var $form = $('#pageOptionsForm');
-    $form.find('select').change(function() {
-        $form.submit();
+
+    $('.page-options-modal-list').change(function(e) {
+        e.preventDefault();
+        var modalId = $(this).val();
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            $('.modal.in').modal('hide');
+            setTimeout(function() {
+                $(modal).modal();
+                // Update URL hash
+                window.location.hash = modalId;
+            }, 800);
+        }
+        return false;
     });
+
 });
 </script>
 <style>

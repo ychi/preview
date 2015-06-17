@@ -5,6 +5,7 @@ use Phifty\Locale;
 use ConfigKit\ConfigCompiler;
 use ReflectionObject;
 use ReflectionClass;
+use Pelago\Emogrifier;
 
 /**
  * @VERSION 2.2.6
@@ -132,11 +133,33 @@ class Preview {
                 case 'htm':
                 case 'twig':
                     $start = microtime(true);
-                    $content = $this->renderTemplate($fileinfo);
+                    $html = $this->renderTemplate($fileinfo);
                     $end = microtime(true);
                     $used = ($end - $start) * 1000;
                     header("X-Rendering-Time: {$used}ms");
-                    echo $content;
+
+                    if (isset($_REQUEST['_filters'])) {
+                        if (strpos($_REQUEST['_filters'],'inline-style') !== false) {
+
+                            if (!isset($_REQUEST['cssfile'])) {
+                                throw new Exception("Please specify 'cssfile' parameter in the url.");
+                            }
+
+                            $cssFile = $_REQUEST['cssfile'];
+                            $ext = pathinfo($cssFile, PATHINFO_EXTENSION);
+                            if ($ext != "css") {
+                                throw new InvalidArgumentException("Invalid css filename.");
+                            }
+                            if (!file_exists($cssFile)) {
+                                throw new Exception("Css file does not exist.");
+                            }
+                            $css = file_get_contents($cssFile);
+                            $emogrifier = new Emogrifier($html, $css);
+                            $html = $emogrifier->emogrify();
+                        }
+                    }
+
+                    echo $html;
                     break;
                 case 'php':
                     require $path;
