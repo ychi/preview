@@ -7,6 +7,7 @@ use Twig_SimpleFunction;
 use Twig_Extensions_Extension_Text;
 use Twig_Extensions_Extension_I18n;
 use Twig_Extensions_Extension_Debug;
+use NumberFormatter;
 
 class Public_Twig_Environment extends Twig_Environment {
     /**
@@ -35,6 +36,24 @@ class TwigEnvironmentFactory {
         $twig->addFunction(new Twig_SimpleFunction('override_query', function(array $args) {
             return http_build_query(array_merge($_GET,$args));
         }));
+
+        $twig->addFunction(new Twig_SimpleFunction('numbers', function($min, $max, $len = 10) {
+            $n = array();
+            for ($i = 0; $i < $len; $i++) {
+                $n[] = rand($min, $max);
+            }
+            return $n;
+        }));
+
+        $twig->addFunction(new Twig_SimpleFunction('numbers_with_format', function($min, $max, $len = 10, $locale = 'en_US') {
+            $fmt = new NumberFormatter($locale, NumberFormatter::DECIMAL);
+            $n = array();
+            for ($i = 0; $i < $len; $i++) {
+                $n[] = $fmt->format(rand($min, $max));
+            }
+            return $n;
+        }));
+
 
         if ( class_exists('Twig_Extensions_Extension_I18n') ) {
             $twig->addExtension(new \Twig_Extensions_Extension_I18n());
