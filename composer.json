@@ -34,8 +34,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Corneltek\\Preview": "src"
+        "psr-4": {
+            "Corneltek\\Preview\\": "src/Corneltek/Preview/"
         }
     },
     "version": "2.2.6"
