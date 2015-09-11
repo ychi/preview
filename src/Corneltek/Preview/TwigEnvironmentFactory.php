@@ -7,6 +7,7 @@ use Twig_SimpleFunction;
 use Twig_Extensions_Extension_Text;
 use Twig_Extensions_Extension_I18n;
 use Twig_Extensions_Extension_Debug;
+use NumberFormatter;
 
 class Public_Twig_Environment extends Twig_Environment {
     /**

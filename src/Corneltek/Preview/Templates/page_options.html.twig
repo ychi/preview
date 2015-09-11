@@ -20,6 +20,13 @@ vim:filetype=htmldjango:
                     <a href="?{{ override_query({ (optionEntry.Key): 1 }) }}">On</a> |
                     <a href="?{{ override_query({ (optionEntry.Key): 0 }) }}">Off</a>
                 </div>
+
+            {% elseif optionEntry.Modals %}
+                <select class="page-options-modal-list" name="modals">
+                    {% for hashEntry in optionEntry.Modals %}
+                        <option value="{{ hashEntry }}">{{ hashEntry }}</option>
+                     {% endfor %}
+                </select>
             {% elseif optionEntry.Hashes %}
                 <ul>
                     {% for hashEntry in optionEntry.Hashes %}
@@ -52,10 +59,22 @@ $(function() {
     $('#pageOptionsCloseBtn').click(function() {
         $('#pageOptions').fadeOut();
     });
-    var $form = $('#pageOptionsForm');
-    $form.find('select').change(function() {
-        $form.submit();
+
+    $('.page-options-modal-list').change(function(e) {
+        e.preventDefault();
+        var modalId = $(this).val();
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            $('.modal.in').modal('hide');
+            setTimeout(function() {
+                $(modal).modal();
+                // Update URL hash
+                window.location.hash = modalId;
+            }, 800);
+        }
+        return false;
     });
+
 });
 </script>
 <style>
@@ -69,6 +88,7 @@ $(function() {
   transition: all 1s ease;
   box-shadow: -2px 2px 5px #a0a0a0;
   transform: translateX(130px);
+  -webkit-transform: translateX(130px);
   min-width: 150px;
   min-height: 120px;
   border-radius: 5px;
@@ -80,13 +100,16 @@ $(function() {
 }
 h4.page-options-title {
   margin: 0;
+  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   position: absolute;
   left: 22px;
   top: 10px;
   transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
 }
 #pageOptions:hover {
+  -webkit-transform: translateX(0);
   transform: translateX(0);
 }
 

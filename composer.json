@@ -9,7 +9,8 @@
         "corneltek/scss-runner": "~1.3",
         "corneltek/cliframework": "*",
         "corneltek/configkit": "*",
-        "corneltek/locale": "~1"
+        "corneltek/locale": "~1",
+        "pelago/emogrifier": "*"
     },
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master"

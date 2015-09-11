@@ -5,6 +5,7 @@ use Phifty\Locale;
 use ConfigKit\ConfigCompiler;
 use ReflectionObject;
 use ReflectionClass;
+use Pelago\Emogrifier;
 
 /**
  * @VERSION 2.2.6
@@ -31,7 +32,6 @@ class Preview {
         $this->config = $config;
     }
 
-
     public function getBuiltInTwigEnvironment(array $options = array())
     {
         $dirs = array();
@@ -47,6 +47,7 @@ class Preview {
     {
         $dirs = array(
             $pathinfo->getPath(),
+            'design/pages',
             'design',
             getcwd(),
         );
@@ -64,13 +65,12 @@ class Preview {
     }
 
 
-    public function renderTemplate($fileinfo)
+    public function renderTemplate(SplFileInfo $fileinfo)
     {
         $twig = $this->getTwigEnvironmentByPath($fileinfo, array(
             'cache' => getcwd() . DIRECTORY_SEPARATOR . 'cache',
             'auto_reload' => true,
         ));
-
 
         $templateFile = $fileinfo->getFilename();
         $pathInfo = pathinfo($fileinfo->getRealPath());
@@ -114,28 +114,52 @@ class Preview {
     public function dispatch($path) {
         $fileinfo = new SplFileInfo($path);
 
-        if ( ! $fileinfo->isReadable() ) {
+        if (! $fileinfo->isReadable()) {
+
             HttpHeaderMessage::byCode(404);
             echo 'Page Not Found.';
             return;
-        }
-        else if( $fileinfo->isDir() ) {
+
+        } else if ($fileinfo->isDir() ) {
+
             $index = new DirectoryIndexReader( $path );
             $index->display();
             return;
-        }
-        elseif( $fileinfo->isFile() ) {
+
+        } elseif ($fileinfo->isFile() ) {
             $ext = $fileinfo->getExtension();
             switch($ext) {
                 case 'html':
                 case 'htm':
                 case 'twig':
                     $start = microtime(true);
-                    $content = $this->renderTemplate($fileinfo);
+                    $html = $this->renderTemplate($fileinfo);
                     $end = microtime(true);
                     $used = ($end - $start) * 1000;
                     header("X-Rendering-Time: {$used}ms");
-                    echo $content;
+
+                    if (isset($_REQUEST['_filters'])) {
+                        if (strpos($_REQUEST['_filters'],'inline-style') !== false) {
+
+                            if (!isset($_REQUEST['cssfile'])) {
+                                throw new Exception("Please specify 'cssfile' parameter in the url.");
+                            }
+
+                            $cssFile = $_REQUEST['cssfile'];
+                            $ext = pathinfo($cssFile, PATHINFO_EXTENSION);
+                            if ($ext != "css") {
+                                throw new InvalidArgumentException("Invalid css filename.");
+                            }
+                            if (!file_exists($cssFile)) {
+                                throw new Exception("Css file does not exist.");
+                            }
+                            $css = file_get_contents($cssFile);
+                            $emogrifier = new Emogrifier($html, $css);
+                            $html = $emogrifier->emogrify();
+                        }
+                    }
+
+                    echo $html;
                     break;
                 case 'php':
                     require $path;
