@@ -8,16 +8,14 @@ class ConfigLoader implements ArrayAccess
 
     public $stash = array();
 
-    public function __construct() {
-        $this->stash = array(
+    public function __construct(array $config = array()) {
+        $this->stash = array_merge(array(
             'TemplateDir'      => 'design',
             'PreviewDir'       => 'preview',
             'StaticDir'        => 's',
             'Verbose'          => false,
-            'Twig'             => array(
-                // 'cache' => true,
-            ),
-        );
+            'Twig'             => array(),
+        ), $config);
     }
 
     public function loadFileIfExists($file) {

@@ -2,6 +2,7 @@
 require 'vendor/autoload.php';
 use Corneltek\Preview\Preview;
 use Corneltek\Preview\ConfigLoader;
+use ConfigKit\ConfigCompiler;
 
 function getPathInfo()
 {
@@ -10,8 +11,14 @@ function getPathInfo()
     }
 }
 
-$config = new ConfigLoader;
-$config->loadFileIfExists('config/preview.yml');
+
+if (file_exists('config/preview.yml')) {
+    $configArray = ConfigCompiler::load('config/preview.yml');
+    $config = new ConfigLoader($configArray);
+} else {
+    $config = new ConfigLoader();
+    $config->loadFileIfExists('config/preview.yml');
+}
 
 $path = getPathInfo();
 if ( ! $path ) {
