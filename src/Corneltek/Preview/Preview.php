@@ -47,7 +47,6 @@ class Preview {
     {
         $dirs = array(
             $pathinfo->getPath(),
-            'design',
             getcwd(),
         );
         return TwigEnvironmentFactory::create($dirs, $options);
