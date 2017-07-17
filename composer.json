@@ -35,8 +35,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "Corneltek\\Preview\\": "src/Corneltek/Preview/"
+            "Corneltek\\Preview\\": "src/"
         }
     },
-    "version": "2.3.0"
+    "extra": {
+        "branch-alias": { "dev-master": "3.0.x-dev" }
+    }
 }
