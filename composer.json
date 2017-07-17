@@ -12,6 +12,7 @@
         "corneltek/locale": "~1",
         "pelago/emogrifier": "*"
     },
+    "license": "MIT",
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master"
     },
