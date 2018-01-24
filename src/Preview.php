@@ -49,6 +49,10 @@ class Preview {
             $pathinfo->getPath(),
             getcwd(),
         );
+        if (isset($this->config['TemplateDir']) && count($this->config['TemplateDir'])) {
+            $dirs = array_merge($dirs, (array) $this->config['TemplateDir']);
+        }
+        $dirs = array_unique(array_map('realpath', $dirs));
         return TwigEnvironmentFactory::create($dirs, $options);
     }
 
